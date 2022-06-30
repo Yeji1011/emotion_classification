@@ -1,0 +1,306 @@
+
+CUDA 버전 확인 : nvcc -version /nvcc -V
+Build cuda_11.5.r11.5/compiler.30672275_0
+
+드라이브랑 CUDA 버전 확인 : nvidia-smi
+ Driver Version: 496.13       CUDA Version: 11.5
+
+1. n-vidia driver(gpu 드라이브) 설치
+
+* 내 GPU가 Cuda Toolkit을 사용할 수 있는지 확인 
+https://developer.nvidia.com/cuda-gpus
+> Compute Capability 나옴
+
+설치 후 nvidia-smi로 확인 (n-vidia driver, cuda 같이 설치됨)
+
+C:\Users\서예지>nvidia-smi
+Fri Feb 11 13:49:16 2022
++-----------------------------------------------------------------------------+
+| NVIDIA-SMI 496.13       Driver Version: 496.13       CUDA Version: 11.5     |
+|-------------------------------+----------------------+----------------------+
+| GPU  Name            TCC/WDDM | Bus-Id        Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |
+|                               |                      |               MIG M. |
+|===============================+======================+======================|
+|   0  NVIDIA GeForce ... WDDM  | 00000000:01:00.0  On |                  N/A |
+| 30%   32C    P8    17W / 350W |    554MiB / 24576MiB |      8%      Default |
+|                               |                      |                  N/A |
++-------------------------------+----------------------+----------------------+
+
+
+
+
+
+2. CUDA (GPU) 설치
+https://developer.nvidia.com/cuda-11-5-2-download-archive?target_os=Windows&target_arch=x86_64&target_version=10&target_type=exe_local
+
+[cuda 버전 확인]
+nvcc --version
+
+C:\Users\서예지>nvcc --version
+nvcc: NVIDIA (R) Cuda compiler driver
+Copyright (c) 2005-2021 NVIDIA Corporation
+Built on Thu_Nov_18_09:52:33_Pacific_Standard_Time_2021
+Cuda compilation tools, release 11.5, V11.5.119
+Build cuda_11.5.r11.5/compiler.30672275_0
+
+
+
+
+
+
+3. cuDNN 설치
+https://developer.nvidia.com/cudnn
+Download cuDNN > Login > Survey하고 >
+ 목록에서 Cuda버전에 맞은 cnDNN 설치하기 (Local Installer for Windows (Zip) 선택함)
+
+다운로드가서 >
+C:\Users\서예지\Downloads\cudnn-windows-x86_64-8.3.2.44_cuda11.5-archive.zip\cudnn-windows-x86_64-8.3.2.44_cuda11.5-archive 에
+bin, include, lib 폴더있음.
+bin , include, lib 폴더 안의 파일들을
+
+위 CUDA 설치한 폴더에 (C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.5)
+각각 복사해넣기
+예) 
+C:\Users\서예지\Downloads\cudnn-windows-x86_64-8.3.2.44_cuda11.5-archive.zip\cudnn-windows-x86_64-8.3.2.44_cuda11.5-archive > bin 폴더안의
+*.dll 파일들을
+C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.5 > bin 폴더안에 복사붙여넣기,
+include, lib 폴더도 동일
+
+
+(참고
+https://n1094.tistory.com/42)
+
+
+
+
+4. 시스템 환경변수에 변수가 자동등록 된다.
+
+시스템 속성 > 고급 > 환경 변수(N)
+ > 환경변수 새창에서 '시스템 변수(S)' 목록에 'CUDA_PATH', 'CUDA_PATH_V11_5' 추가됐는지 확인하기
+
+CUDA_PATH              C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.5
+CUDA_PATH_V11_5     C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.5
+
+
+4-2
+cmd에서 아래 명령 실행, 따옴표 포함
+"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v11.5/extras/demo_suite/deviceQuery.exe"
+맨 아래줄 Result = PASS 나옴
+
+
+
+
+https://blog.naver.com/PostView.nhn?blogId=wjddn9252&logNo=222258256320&parentCategoryNo=&categoryNo=19&viewDate=&isShowPopularPosts=true&from=search
+
+
+
+
+
+
+5. 아나콘다 설치
+설치할 때
+Just me 보다 All uers 추천 (근데 just me 했음),
+Add Anaconda3 to my PATH environment variable이랑 Resister Anaconda3 as my default Python 3.8 둘다 선택
+
+설치완료 되면 window에  Anaconda3 폴더 생성됐는지 확인
+* 시작 -> Anaconda3 (64-bit) -> Anaconda Prompt (anaconda3) 실행해서 간단하게 python 테스트해보기
+(base) C:\Users\yj>python --version
+Python 3.9.7
+
+가상환경 생성 (pytorch1.10이름으로 파이썬3.8버전 생성)
+conda create -n pytorch1.10 python=3.8
+conda activate pytorch1.10
+
+
+
+
+
+
+6. 파이토치 설치  (파이토치전에 파이썬 설치해도될듯)
+cuda버전 확인하고
+
+https://pytorch.org/get-started/locally/  에서 옵션선택하면 명령어 생성됨
+(conda install pytorch torchvision torchaudio cudatoolkit=11.3 -c pytorch )
+
+가상환경 yj 접속해서 파이토치 설치 명령어 입력
+
+1. pytorch1.10, python3.8 설치함
+2. pytorch1.11, python3.9.12 설치함 (22/4/21)
+
+
+
+파이썬 설치
+
+https://www.python.org/downloads/windows/
+설치시 Add Python3.8 to PATH 선택하고 'Install Now' 클릭
+
+
+
+
+파이토치 설치하고, 파이썬 설치하고
+>>>python  입력해서 확인
+
+(pytorch1.10) C:\Users\yj>python
+Python 3.8.12 (default, Oct 12 2021, 03:01:40) [MSC v.1916 64 bit (AMD64)] :: Anaconda, Inc. on win32
+Type "help", "copyright", "credits" or "license" for more information.
+또는
+$python -V
+>>> Python 3.8.12
+
+
+$ import torch
+$ print(torch.cuda.is_available())
+True
+$ print(torch.version.cuda)
+11.3
+>>>
+
+(base) D:\>python
+Python 3.9.7 (default, Sep 16 2021, 16:59:28) [MSC v.1916 64 bit (AMD64)] :: Anaconda, Inc. on win32
+Type "help", "copyright", "credits" or "license" for more information.
+
+
+
+
+7. 쥬피터랩 설치
+$ conda install jupyterlab (lab 붙이기)
+
+-> 앞으로 파이썬 파일들을 저장할 폴더 생성하기
+-> 폴더들어가서 shift + 마우스 우클릭하면 > PowerShell 열기
+
+PowerShell창에서 
+>>> jupyter lab 입력  (lab 띄우기)
+
+PS C:\Users\yj\Desktop\새 폴더> jupyter lab
+-> 쥬피터랩 새창 열림  (크롬사용하기, 크롬창 안되면 주소복사해서 붙여넣기)
+
+
+https://blog.naver.com/PostView.nhn?blogId=if112&logNo=222263349407
+
+
+
+
+
+
+(pytorch1.10) C:\Users\yj>jupyter lab --generate-config
+or  C:\Users\yj\.jupyter 폴더에 jupyter_lab_config 파일을 우클릭에 'Edit with IDLE'로 열기
+
+파일 열어서
+# c.ServerApp.allow_origin = '*'
+# c.ServerApp.root_dir = '../'
+# c.ServerApp.ip = '0.0.0.0' (Default: localhost)
+# c.ServerApp.port = 8800
+# c.ServerApp.password = 'argon2:$argon2id$v=19$m=10240,t=10,p=8$bT7iZAwcqaIdMoo4S4zw6Q$2P1RzNgQNn+0GqK94Jqxpg'
+# c.ExtensionApp.open_browser = False
+수정하기
+
+# c.ServerApp.iopub_data_rate_limit = 1.0e10 (1000000을 1.0e10로 수정)
+https://seong6496.tistory.com/98
+jupyter notebook --NotebookApp.iopub_data_rate_limit=1.0e10 and/or
+jupyter lab --NotebookApp.iopub_data_rate_limit=1.0e10
+
+
+
+$ jupyter labextension install my-extension my-other-extension 에러남
+->
+ValueError: Please install Node.js and npm before continuing installation.
+ You may be able to install Node.js from your package manager, from conda, or directly from the Node.js website (https://nodejs.org).
+See the log file for details:  C:\Users\yj\AppData\Local\Temp\jupyterlab-debug-x7sjmfbe.log
+
+
+
+
+
+$ pip install jupyterlab 설치함
+실행하면 AttributeError: 'ExtensionManager' object has no attribute '_extensions' 에러나서
+
+
+(pytorch1.10) C:\Users\yj>conda install nodejs -c conda-forge --repodata-fn=repodata.json
+노드 설치함
+
+==> WARNING: A newer version of conda exists. <==
+  current version: 4.10.3
+  latest version: 4.11.0
+
+Please update conda by running
+
+    $ conda update -n base -c defaults conda
+
+
+## Package Plan ##
+
+  environment location: C:\Users\yj\anaconda3\envs\pytorch1.10
+
+  added / updated specs:
+    - nodejs
+
+$ conda list
+설치목록에 nodejs 확인
+>
+$ jupyter lab 실행하니
+AttributeError: 'ExtensionManager' object has no attribute '_extensions' 에러또남
+>
+(pytorch1.10) C:\Users\yj>jupyter server extension disable nbclassic 입력
+>>> Disabling: nbclassic
+- Writing config: C:\Users\yj\anaconda3\envs\pytorch1.10\etc\jupyter
+    - Validating nbclassic...
+      nbclassic  ok
+    - Extension successfully disabled.
+$ jupyter lab 실행됨
+
+
+브라우저창에 로컬주소는 실행되고,
+IP주소 실행안되면 (Token authentication is enabled 뜨면)
+$jupyter notebook list       입력해서 나오는 주소 중 아무거나
+Password or token: 칸에 넣으면됨 
+
+
+
+
+
+
+
+
+
+
+
+
+(
+$ jupyter labextension install my-extension@1.2.3
+
+
+https://kibua20.tistory.com/184
+Jupyter lab을 실행하면  터미널에서 접속할 수 있는  IP 주소와 Token을 출력해줍니다.  Local PC에서는 바로 Browser에서 Jupyter 사용이 가능하지만, 원격 서버인 경우에는 설정한 IP 주소를 Browser를 통해서 Token을 입력해야 사용이 가능합니다. 
+
+https://likecode.tistory.com/234
+
+$ pip install jupyterlab
+Successfully installed pywinpty-1.1.6
+
+https://kibua20.tistory.com/184
+
+
+* 아나콘다에 nodes 설치
+상황1. 전역에 nodejs는 최신 버전이지만 이상하게 jupyter lab 혹은 notebook에서 nodejs를 인지 못할 때.
+- 이런 경우는 conda에서 사용하는 nodejs를 버전을 봐야한다. ($ Conda list)
+
+- nodejs가 설치되어있지 않다면 설치하는 명령어로 설치한다. 
+
+conda install nodejs -c conda-forge --repodata-fn=repodata.json)
+
+
+
+
+
+
+
+
+8. 노머신 설치
+https://www.nomachine.com/
+
+
+
+
+
+
